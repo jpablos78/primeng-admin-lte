@@ -1,0 +1,58 @@
+<p-table [columns]="cols" [value]="docs">
+    <ng-template pTemplate="caption">
+        Procesar Documentos Electronicos
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="ui-helper-clearfix" style="text-align: left">
+            <!--<button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV"
+                style="margin-right: 0.5em;"></button>
+            <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL"
+                style="margin-right: 0.5em;" class="ui-button-success"></button>
+            <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF"
+                class="ui-button-warning"></button>
+            <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only"
+                style="float:right"></button>-->
+
+            <p-splitButton label="Procesar y Enviar Mail" icon="fa fa-star" [model]="items"></p-splitButton>
+        </div>
+    </ng-template>
+</p-table>
+
+<!--
+<p-table>
+    <ng-template pTemplate="caption">
+        Procesar Documentos Electronicos
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+-->

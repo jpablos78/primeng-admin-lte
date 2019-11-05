@@ -289,7 +289,7 @@ a:focus {
   font-size: 20px;
   line-height: 50px;
   text-align: center;
-  width: 230px;
+  width: 280px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
   font-weight: 300;
@@ -414,7 +414,7 @@ a:focus {
   left: 0;
   padding-top: 50px;
   min-height: 100%;
-  width: 230px;
+  width: 280px;
   z-index: 810;
   -webkit-transition: -webkit-transform 0.3s ease-in-out, width 0.3s ease-in-out;
   -moz-transition: -moz-transform 0.3s ease-in-out, width 0.3s ease-in-out;

@@ -14,6 +14,7 @@ import { SettingComponent } from './components/shared/setting/setting.component'
 import { AppRoutesModule } from './app-routes.module';
 import { CambioClaveComponent } from './cambio-clave/cambio-clave.component';
 import { MenuFavoritosComponent } from './menu-favoritos/menu-favoritos.component';
+import { ProcesarDocumentosElectronicosComponent } from './procesar-documentos-electronicos/procesar-documentos-electronicos.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { MenuFavoritosComponent } from './menu-favoritos/menu-favoritos.componen
     FooterComponent,
     SettingComponent,
     CambioClaveComponent,
-    MenuFavoritosComponent
+    MenuFavoritosComponent,
+    ProcesarDocumentosElectronicosComponent
   ],
   imports: [
     BrowserModule,
