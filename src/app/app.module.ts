@@ -2,8 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { PrimeNGModule } from './png';
+
+import { ProcesarDocumentosElectronicosService } from './services/procesar-documentos-electronicos.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/shared/header/header.component';
@@ -35,9 +38,12 @@ import { ProcesarDocumentosElectronicosComponent } from './procesar-documentos-e
     PrimeNGModule,
     AppRoutesModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    ProcesarDocumentosElectronicosService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MenuItem, LazyLoadEvent } from 'primeng/api';
+
+import { ProcesarDocumentosElectronicosService } from '../services/procesar-documentos-electronicos.service';
+
+import ITB_FAC_DOCUMENTOS from '../model/ITB_FAC_DOCUMENTOS';
 
 @Component({
   selector: 'app-procesar-documentos-electronicos',
@@ -7,21 +11,36 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./procesar-documentos-electronicos.component.css']
 })
 export class ProcesarDocumentosElectronicosComponent implements OnInit {
+  @ViewChild('dt', { static: false, }) dt: any;
+  grades: any[];
+  empresas: any[];
+  tipo: any[];
+  filtering() {
+    //alert('fffff');
+    this.dt.reset();
+  }
+
   cols: any[];
   docs: any[];
   items: MenuItem[];
+  documentos: ITB_FAC_DOCUMENTOS[];
+  first = 0;
+  totalRecords: number;
 
-  constructor() { }
+  txtDocumento: string;
+
+  constructor(
+    private procesarDocumentosElectronicosService: ProcesarDocumentosElectronicosService,
+  ) { }
 
   ngOnInit() {
 
-    this.docs = [
-      { cci_empresa: 'GLOBALTEX', cci_tipocmpr: 'FAC', nci_documento: '10011235', ces_fe: 'A' },
-      { cci_empresa: 'GLOBALTEX', cci_tipocmpr: 'FAC', nci_documento: '10011236', ces_fe: 'A' },
-      { cci_empresa: 'GLOBALTEX', cci_tipocmpr: 'FAC', nci_documento: '10011237', ces_fe: 'A' },
-      { cci_empresa: 'GLOBALTEX', cci_tipocmpr: 'FAC', nci_documento: '10011238', ces_fe: 'A' },
-      { cci_empresa: 'GLOBALTEX', cci_tipocmpr: 'FAC', nci_documento: '10011239', ces_fe: 'A' }
-    ]
+    this.inicializarPantalla();
+
+  }
+
+  inicializarPantalla() {
+    this.txtDocumento = '';
 
     this.cols = [
       { field: 'cci_empresa', header: 'Empresa' },
@@ -42,6 +61,30 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         }
       }
     ];
+
+    this.grades = [];
+    this.grades.push({ label: 'ACTIVO', value: 'ACTIVO' });
+    this.grades.push({ label: 'INACTIVO', value: 'INACTIVO' });
+
+    this.empresas = [];
+    this.empresas.push({ label: 'GLOBALTEX', value: '008' });
+    this.empresas.push({ label: 'TEXFASHION', value: '009' });
+    this.empresas.push({ label: 'PASSARELA', value: '012' });
+
+    this.tipo = [];
+    this.tipo.push({ label: 'FACTURA', value: 'FAC' });
+    this.tipo.push({ label: 'NOTA DE CREDITO', value: 'NC' });
+    this.tipo.push({ label: 'RETENCION', value: 'RET' });
+    this.tipo.push({ label: 'GUIA', value: 'GUI' });
   }
 
+  loadLazy(event: LazyLoadEvent) {
+    this.totalRecords = 10;
+    this.procesarDocumentosElectronicosService.getDocumentos(event).subscribe(
+      data => {
+        this.documentos = data;
+        console.log(this.documentos);
+      }
+    );
+  }
 }
