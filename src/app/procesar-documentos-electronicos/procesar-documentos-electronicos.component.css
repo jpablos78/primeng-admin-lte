@@ -1,4 +1,4 @@
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .div-component {
         /*display: block;
         visibility: visible;*/
@@ -6,9 +6,13 @@
     }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 700px) {
     .div-component {
         display: none;
         visibility: hidden;
     }
+}
+
+.ui-inputtext {
+    width: 100%
 }

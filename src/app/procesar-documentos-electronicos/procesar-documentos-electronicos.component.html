@@ -20,7 +20,7 @@
                     defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
                 </p-multiSelect>
 
-                <input *ngSwitchCase="'nci_documento'" pInputText type="text"
+                <input *ngSwitchCase="'nci_documento'" pInputText type="text" [style]="{'width':'100%'}"
                     (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" pKeyFilter="int"
                     [(ngModel)]="txtDocumento">
 
@@ -28,8 +28,6 @@
                     defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
                 </p-multiSelect>
             </th>
-
-
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
