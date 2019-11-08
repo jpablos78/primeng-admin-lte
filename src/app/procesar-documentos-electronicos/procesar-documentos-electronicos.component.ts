@@ -43,10 +43,31 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     this.txtDocumento = '';
 
     this.cols = [
-      { field: 'cci_empresa', header: 'Empresa' },
-      { field: 'cci_tipocmpr', header: 'Tipo' },
-      { field: 'nci_documento', header: 'Documento' },
-      { field: 'ces_fe', header: 'Estado' }
+      {
+        field: 'cci_empresa',
+        header: 'Empresa',
+        width: '20%'
+      },
+      {
+        field: 'cci_tipocmpr',
+        header: 'Tipo',
+        width: '20%'
+      },
+      {
+        field: 'nci_documento',
+        header: 'Documento',
+        width: '15%'
+      },
+      {
+        field: 'ces_fe',
+        header: 'Estado',
+        width: '15%'
+      },
+      {
+        field: 'pdf',
+        header: 'PDF',
+        width: '6em'
+      }
     ];
 
     this.items = [

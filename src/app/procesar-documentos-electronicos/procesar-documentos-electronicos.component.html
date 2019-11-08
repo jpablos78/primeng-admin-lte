@@ -6,11 +6,18 @@
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns">
+            <th style="width: 3em">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns" [ngStyle]="{'width': col.width, 'display': col.display}">
                 {{col.header}}
             </th>
+            <!--<th style="width:4em">PDF</th>-->
         </tr>
         <tr>
+            <th style="width: 3em">
+
+            </th>
             <th *ngFor="let col of columns" [ngSwitch]="col.field">
                 <p-multiSelect *ngSwitchCase="'cci_empresa'" [options]="empresas" [style]="{'width':'100%'}"
                     defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
@@ -32,9 +39,20 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
+            <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
             <td *ngFor="let col of columns">
                 <span class="ui-column-title">{{ col.header }}</span>
-                {{rowData[col.field]}}
+
+                <span *ngIf="col.field!=='pdf'">
+                    {{rowData[col.field]}}
+                </span>
+
+                <span *ngIf="col.field =='pdf'">
+                    <button pButton icon="fa fa-print" style="margin-right: .3em"></button>
+                    <button pButton icon="fa fa-envelope"></button>
+                </span>
             </td>
         </tr>
         <div class="div-component">
