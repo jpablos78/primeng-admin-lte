@@ -66,7 +66,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       {
         field: 'pdf',
         header: 'PDF',
-        width: '6em'
+        width: '9em'
       }
     ];
 

@@ -38,7 +38,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
+        <tr style="height:1em">
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
@@ -50,6 +50,7 @@
                 </span>
 
                 <span *ngIf="col.field =='pdf'">
+                    <button pButton icon="pi pi-cog" style="margin-right: .3em"></button>
                     <button pButton icon="fa fa-print" style="margin-right: .3em"></button>
                     <button pButton icon="fa fa-envelope"></button>
                 </span>
