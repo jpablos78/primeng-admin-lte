@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuItem, LazyLoadEvent } from 'primeng/api';
 
 import { ProcesarDocumentosElectronicosService } from '../services/procesar-documentos-electronicos.service';
+import { EstadosService } from '../services/estados.service';
 
 import ITB_FAC_DOCUMENTOS from '../model/ITB_FAC_DOCUMENTOS';
+import IEstados from '../model/IEstados';
 
 @Component({
   selector: 'app-procesar-documentos-electronicos',

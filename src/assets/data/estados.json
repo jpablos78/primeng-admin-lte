@@ -1,0 +1,32 @@
+{
+    "data": [
+        {
+            "label": "TODOS",
+            "value": "T"
+        },
+        {
+            "label": "PENDIENTE",
+            "value": "P"
+        },
+        {
+            "label": "GENERADO",
+            "value": "G"
+        },
+        {
+            "label": "FIRMADO",
+            "value": "F"
+        },
+        {
+            "label": "ENVIADO",
+            "value": "E"
+        },
+        {
+            "label": "AUTORIZADO",
+            "value": "A"
+        },
+        {
+            "label": "RECHAZADO",
+            "value": "R"
+        }
+    ]
+}

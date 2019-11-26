@@ -7,6 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PrimeNGModule } from './png';
 
 import { ProcesarDocumentosElectronicosService } from './services/procesar-documentos-electronicos.service';
+import { EstadosService } from './services/estados.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/shared/header/header.component';
@@ -42,7 +43,8 @@ import { ProcesarDocumentosElectronicosComponent } from './procesar-documentos-e
     HttpClientModule
   ],
   providers: [
-    ProcesarDocumentosElectronicosService
+    ProcesarDocumentosElectronicosService,
+    EstadosService
   ],
   bootstrap: [AppComponent]
 })
