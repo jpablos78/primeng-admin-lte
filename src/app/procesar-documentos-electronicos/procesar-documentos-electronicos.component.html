@@ -1,5 +1,5 @@
-<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="3" [lazy]="true"
-    [totalRecords]="totalRecords" (onLazyLoad)="loadLazy($event)" [(first)]="first">
+<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="7" [lazy]="true"
+    [totalRecords]="totalRecords$  | async" (onLazyLoad)="loadLazy($event)" [(first)]="first">
     <ng-template pTemplate="caption">
         Procesar Documentos Electronicos
     </ng-template>
@@ -9,8 +9,13 @@
             <th style="width: 3em">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th *ngFor="let col of columns" [ngStyle]="{'width': col.width, 'display': col.display}">
+            <th *ngFor="let col of columns" [ngStyle]="{'width': col.width, 'display': col.display}"
+                [pSortableColumn]="col.field">
                 {{col.header}}
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order">
+                </p-sortIcon>
             </th>
             <!--<th style="width:4em">PDF</th>-->
         </tr>

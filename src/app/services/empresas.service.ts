@@ -3,45 +3,22 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-
 import { environment } from '../../environments/environment';
+//import { transformError } from '../../common/common';
 
-import ITB_FAC_DOCUMENTOS from '../model/ITB_FAC_DOCUMENTOS';
+import ITB_SEG_EMPRESA from '../model/ITB_SEG_EMPRESA';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProcesarDocumentosElectronicosService {
-  url = environment.baseUrl + 'procesarDocumentos.php';
-  private totalRecords: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+export class EmpresasService {
+  url = environment.baseUrl + 'empresa.php';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getTotalRecords() {
-    return this.totalRecords.asObservable();
-  }
-
-  //getDocumentos(event): Observable<ITB_FAC_DOCUMENTOS[]> {
-
-  //console.log(event.first);
-  //console.log(event.rows);
-  //console.log(event.sortField);
-  //console.log(event.sortOrder);
-  //console.log(event.filters);
-
-  /*
-      return this.http.get<any>('/assets/data/TB_FAC_DOCUMENTOS.json')
-        .pipe(
-          map(res => res.data as ITB_FAC_DOCUMENTOS[])
-        );
-        */
-
-
-  //}
-
-  getDocumentos(postData): Observable<ITB_FAC_DOCUMENTOS[]> {
+  getEmpresas(postData): Observable<ITB_SEG_EMPRESA[]> {
     return this.http.post<any>(this.url, postData)
       .pipe(
         map(res => {
@@ -50,8 +27,7 @@ export class ProcesarDocumentosElectronicosService {
             //if (res.ok === 'S') {
             //  alert(res);
             //this.totalRecords.next(res.total);
-            this.totalRecords.next(res.total);
-            return res.data as ITB_FAC_DOCUMENTOS[];
+            return res.data as ITB_SEG_EMPRESA[];
             //} else {
             //  throw (res.mensaje);
             //}

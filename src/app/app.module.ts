@@ -9,6 +9,7 @@ import { PrimeNGModule } from './png';
 import { ProcesarDocumentosElectronicosService } from './services/procesar-documentos-electronicos.service';
 import { EstadosService } from './services/estados.service';
 import { CciTipocmprService } from './services/cci-tipocmpr.service';
+import { EmpresasService } from './services/empresas.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/shared/header/header.component';
@@ -45,7 +46,9 @@ import { ProcesarDocumentosElectronicosComponent } from './procesar-documentos-e
   ],
   providers: [
     ProcesarDocumentosElectronicosService,
-    EstadosService
+    EstadosService,
+    CciTipocmprService,
+    EmpresasService
   ],
   bootstrap: [AppComponent]
 })
