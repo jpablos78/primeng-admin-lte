@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "label": "FACTURA",
+            "value": "FAC"
+        },
+        {
+            "label": "NOTA DE CREDITO",
+            "value": "NC"
+        },
+        {
+            "label": "RETENCION",
+            "value": "RET"
+        },
+        {
+            "label": "GUIA DE REMISION",
+            "value": "GUI"
+        }
+    ]
+}

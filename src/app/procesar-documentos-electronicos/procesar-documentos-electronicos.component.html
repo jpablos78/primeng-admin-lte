@@ -23,7 +23,7 @@
                     defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
                 </p-multiSelect>
 
-                <p-multiSelect *ngSwitchCase="'cci_tipocmpr'" [options]="tipo" [style]="{'width':'100%'}"
+                <p-multiSelect *ngSwitchCase="'cci_tipocmpr'" [options]="cci_tipocmpr" [style]="{'width':'100%'}"
                     defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
                 </p-multiSelect>
 
@@ -31,7 +31,7 @@
                     (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" pKeyFilter="int"
                     [(ngModel)]="txtDocumento">
 
-                <p-multiSelect *ngSwitchCase="'ces_fe'" [options]="grades" [style]="{'width':'100%'}"
+                <p-multiSelect *ngSwitchCase="'ces_fe'" [options]="estados" [style]="{'width':'100%'}"
                     defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
                 </p-multiSelect>
             </th>
