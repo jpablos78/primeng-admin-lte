@@ -50,6 +50,23 @@
             <td *ngFor="let col of columns">
                 <span class="ui-column-title">{{ col.header }}</span>
 
+                <span [ngSwitch]="col.field">
+                    <div *ngSwitchCase="'cci_empresa'"> {{rowData['cno_empresa']}} </div>
+
+
+                    <div *ngSwitchCase="'pdf'">
+                        <button pButton icon="pi pi-cog" style="margin-right: .3em"></button>
+                        <button pButton icon="fa fa-print" style="margin-right: .3em"></button>
+                        <button pButton icon="fa fa-envelope"></button>
+                    </div>
+
+                    <div *ngSwitchDefault> {{rowData[col.field]}} </div>
+                </span>
+
+                <!--<span *ngIf="col.field=='cci_empresa'">
+                    {{rowData['cno_empresa']}}
+                </span>
+
                 <span *ngIf="col.field!=='pdf'">
                     {{rowData[col.field]}}
                 </span>
@@ -58,7 +75,7 @@
                     <button pButton icon="pi pi-cog" style="margin-right: .3em"></button>
                     <button pButton icon="fa fa-print" style="margin-right: .3em"></button>
                     <button pButton icon="fa fa-envelope"></button>
-                </span>
+                </span>-->
             </td>
         </tr>
         <div class="div-component">
