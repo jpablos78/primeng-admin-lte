@@ -53,6 +53,23 @@
                 <span [ngSwitch]="col.field">
                     <div *ngSwitchCase="'cci_empresa'"> {{rowData['cno_empresa']}} </div>
 
+                    <div *ngSwitchCase="'cci_tipocmpr'"> {{rowData['descripcion_cci_tipocmpr']}} </div>
+
+                    <div *ngSwitchCase="'ces_fe'">
+                        <div [ngSwitch]="rowData['ces_fe']">
+                            <div *ngSwitchCase="'A'" [style.color]="'Green'"> {{rowData['descripcion_ces_fe']}}
+                            </div>
+
+                            <div *ngSwitchCase="'R'" [style.color]="'Red'"> {{rowData['descripcion_ces_fe']}}
+                            </div>
+
+                            <div *ngSwitchDefault [style.color]="'Black'"> {{rowData['descripcion_ces_fe']}}
+                            </div>
+                        </div>
+
+
+
+                    </div>
 
                     <div *ngSwitchCase="'pdf'">
                         <button pButton icon="pi pi-cog" style="margin-right: .3em"></button>
