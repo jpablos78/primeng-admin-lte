@@ -41,6 +41,9 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   totalRecords$: Observable<number>;
 
   txtDocumento: string;
+  txtTipocmpr: any;
+  txtEmpresa: any;
+  txtEstado: any;
 
   constructor(
     private procesarDocumentosElectronicosService: ProcesarDocumentosElectronicosService,
@@ -62,21 +65,25 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       {
         field: 'cci_empresa',
         header: 'Empresa',
+        filterMatchMode: 'in',
         width: '20%'
       },
       {
         field: 'cci_tipocmpr',
         header: 'Tipo',
+        filterMatchMode: 'in',
         width: '20%'
       },
       {
         field: 'nci_documento',
         header: 'Documento',
+        filterMatchMode: 'contains',
         width: '15%'
       },
       {
         field: 'ces_fe',
         header: 'Estado',
+        filterMatchMode: 'in',
         width: '15%'
       },
       {
@@ -90,11 +97,13 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       {
         label: 'Solo Procesar', icon: 'pi pi-cog', command: () => {
           console.log('update');
+          alert('update');
         }
       },
       {
         label: 'Solo enviar Mail', icon: 'fa fa-envelope', command: () => {
           console.log('delete');
+          alert('delete');
         }
       }
     ];
@@ -206,5 +215,18 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         console.log(this.documentos);
       }
     );*/
+  }
+
+  save() {
+    alert('save');
+
+  }
+
+  resetFilter() {
+    this.dt.reset();
+    this.txtDocumento = '';
+    this.txtTipocmpr = '';
+    this.txtEmpresa = '';
+    this.txtEstado = '';
   }
 }

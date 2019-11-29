@@ -25,11 +25,13 @@
             </th>
             <th *ngFor="let col of columns" [ngSwitch]="col.field">
                 <p-multiSelect *ngSwitchCase="'cci_empresa'" [options]="empresas" [style]="{'width':'100%'}"
-                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
+                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)"
+                    [(ngModel)]="txtEmpresa">
                 </p-multiSelect>
 
                 <p-multiSelect *ngSwitchCase="'cci_tipocmpr'" [options]="cci_tipocmpr" [style]="{'width':'100%'}"
-                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
+                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)"
+                    [(ngModel)]="txtTipocmpr">
                 </p-multiSelect>
 
                 <input *ngSwitchCase="'nci_documento'" pInputText type="text" [style]="{'width':'100%'}"
@@ -37,7 +39,8 @@
                     [(ngModel)]="txtDocumento">
 
                 <p-multiSelect *ngSwitchCase="'ces_fe'" [options]="estados" [style]="{'width':'100%'}"
-                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)">
+                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)"
+                    [(ngModel)]="txtEstado">
                 </p-multiSelect>
             </th>
         </tr>
@@ -72,7 +75,8 @@
                     </div>
 
                     <div *ngSwitchCase="'pdf'">
-                        <button pButton icon="pi pi-cog" style="margin-right: .3em"></button>
+                        <button pButton icon="pi pi-cog" style="margin-right: .3em"
+                            *ngIf="rowData['ces_fe']!=='A'"></button>
                         <button pButton icon="fa fa-print" style="margin-right: .3em"></button>
                         <button pButton icon="fa fa-envelope"></button>
                     </div>
@@ -100,8 +104,19 @@
         </div>
     </ng-template>
     <ng-template pTemplate="summary">
-        <div class="ui-helper-clearfix" style="text-align: left">
-            <!--<button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV"
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6" style="text-align: left">
+                <p-splitButton label="Procesar y Enviar Mail" icon="fa fa-star" (onClick)="save()" [model]="items">
+                </p-splitButton>
+            </div>
+
+            <div class="p-col-12 p-md-6" style="text-align: right">
+                <button pButton label="Borrar filtro" icon="fa fa-repeat" (click)="resetFilter()"></button>
+            </div>
+        </div>
+
+        <!--<div class="ui-helper-clearfix" style="text-align: left">-->
+        <!--<button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV"
                 style="margin-right: 0.5em;"></button>
             <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL"
                 style="margin-right: 0.5em;" class="ui-button-success"></button>
@@ -110,8 +125,21 @@
             <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only"
                 style="float:right"></button>-->
 
-            <p-splitButton label="Procesar y Enviar Mail" icon="fa fa-star" [model]="items"></p-splitButton>
+        <!--<div class="p-grid">
+                <div class="p-col">
+                    <p-splitButton label="Procesar y Enviar Mail" icon="fa fa-star" (onClick)="save()" [model]="items">
+                    </p-splitButton>
+                </div>
+                <div class="p-col"></div>
+                <div class="p-col">
+                    <button pButton label="Borrar filtro" icon="fa fa-print"></button>
+                </div>-->
+        <!--    <p-splitButton label="Procesar y Enviar Mail" icon="fa fa-star" (onClick)="save()" [model]="items">
+            </p-splitButton>
         </div>
+        <div style="text-align: right">
+            <button pButton label="Borrar filtro" icon="fa fa-print"></button>
+        </div>-->
     </ng-template>
 </p-table>
 
