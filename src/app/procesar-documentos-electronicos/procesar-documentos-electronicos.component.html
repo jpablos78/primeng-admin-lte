@@ -1,4 +1,4 @@
-<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="7" [lazy]="true"
+<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="9" [lazy]="true"
     [totalRecords]="totalRecords$  | async" (onLazyLoad)="loadLazy($event)" [(first)]="first">
     <ng-template pTemplate="caption">
         Procesar Documentos Electronicoss
@@ -47,10 +47,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr style="height:1em">
-            <td>
+            <td style="height: 0.8em; font-size: 1em;">
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td *ngFor="let col of columns">
+            <td *ngFor="let col of columns" style="height: 0.5em; font-size: 1em;">
                 <span class="ui-column-title">{{ col.header }}</span>
 
                 <span [ngSwitch]="col.field">
@@ -69,16 +69,14 @@
                             <div *ngSwitchDefault [style.color]="'Black'"> {{rowData['descripcion_ces_fe']}}
                             </div>
                         </div>
-
-
-
                     </div>
 
                     <div *ngSwitchCase="'pdf'">
                         <button pButton icon="pi pi-cog" style="margin-right: .3em"
                             *ngIf="rowData['ces_fe']!=='A'"></button>
                         <button pButton icon="fa fa-print" style="margin-right: .3em"></button>
-                        <button pButton icon="fa fa-envelope"></button>
+                        <button pButton icon="fa fa-envelope" style="margin-right: .3em"></button>
+                        <!--<button pButton label="Click" style="height: 1.1em"></button>-->
                     </div>
 
                     <div *ngSwitchDefault> {{rowData[col.field]}} </div>

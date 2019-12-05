@@ -17,7 +17,9 @@
     width: 100%
 }
 
-.ui-datatable-header{
-    text-align:center;
-    font-size:8px;
-  } 
+/*
+:host>>>.ui-chkbox .ui-chkbox-box {
+    width: 1.2em;
+    height: 1.2em;
+  }
+*/
