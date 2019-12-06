@@ -1,4 +1,4 @@
-<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="9" [lazy]="true"
+<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="3" [lazy]="true"
     [totalRecords]="totalRecords$  | async" (onLazyLoad)="loadLazy($event)" [(first)]="first">
     <ng-template pTemplate="caption">
         Procesar Documentos Electronicoss
@@ -7,7 +7,7 @@
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th style="width: 3em">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                <!--<p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
             </th>
             <th *ngFor="let col of columns" [ngStyle]="{'width': col.width, 'display': col.display}"
                 [pSortableColumn]="col.field">
@@ -47,8 +47,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr style="height:1em">
+            <!--<tr style="height:1em" [pSelectableRow]="rowData">-->
             <td style="height: 0.8em; font-size: 1em;">
-                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                <!--<p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
+                <p-checkbox name="group1" inputId="ny"></p-checkbox>
             </td>
             <td *ngFor="let col of columns" style="height: 0.5em; font-size: 1em;">
                 <span class="ui-column-title">{{ col.header }}</span>
@@ -74,8 +76,10 @@
                     <div *ngSwitchCase="'pdf'">
                         <button pButton icon="pi pi-cog" style="margin-right: .3em"
                             *ngIf="rowData['ces_fe']!=='A'"></button>
-                        <button pButton icon="fa fa-print" style="margin-right: .3em"></button>
-                        <button pButton icon="fa fa-envelope" style="margin-right: .3em"></button>
+                        <button pButton icon="fa fa-print" style="margin-right: .3em"
+                            (click)="imprimirDocumento(rowData)"></button>
+                        <button pButton icon="fa fa-envelope" style="margin-right: .3em"
+                            (click)="enviarMailDocumento(rowData)"></button>
                         <!--<button pButton label="Click" style="height: 1.1em"></button>-->
                     </div>
 

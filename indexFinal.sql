@@ -101,4 +101,116 @@ ON [dbo].[TB_FAC_FACTURA]
 
 https://stackoverflow.com/questions/39383685/primeng-datatable-checkbox-selection-with-pagination
 
+ALTER view [dbo].[VI_FAC_FE_DOCUMENTOS]
+AS
+SELECT f.cci_empresa, 
+(select cno_empresa from BIZ_GEN..tb_seg_empresa where CCI_EMPRESA = f.CCI_EMPRESA) as cno_empresa,
+f.cci_sucursal, 
+f.cci_cliente, 
+f.cno_cliprov,
+f.dfm_fecha,
+f.cci_tipocmpr, 
+case f.cci_tipocmpr when 'FAC' then 'FACTURA' when 'NC' then 'NOTA DE CREDITO' when 'RET' then 'RETENCION' when 'GUI' then 'GUIA' end as descripcion_cci_tipocmpr,
+f.nci_documento,
+f.id_log_fe,
+f.cci_usuario,
+f.dfx_reg_fecha,
+f.ces_fe,
+case f.ces_fe when 'P' then 'PENDIENTE' when 'G' then 'GENERADO' when 'F' then 'FIRMADO' when 'E' then 'ENVIADO' when 'A' then 'AUTORIZADO' when 'R' then 'RECHAZADO' end as descripcion_ces_fe,
+f.cci_clave_acceso
+FROM (  
+	SELECT F.CCI_EMPRESA, 
+			F.CCI_SUCURSAL, 
+			F.CCI_CLIENTE, 
+			c.cno_cliprov,
+			F.DFM_FECHA,
+			F.CCI_TIPOCMPR, 
+			F.NCI_FACTURA AS NCI_DOCUMENTO,
+			F.ID_LOG_FE,
+			F.CCI_USUARIO,
+			F.DFX_REG_FECHA,
+			F.CES_FE,
+			F.CCI_CLAVE_ACCESO
+	FROM BIZ_FAC..TB_FAC_FACTURA F INNER JOIN BIZ_FAC..TB_FAC_FE_PARAMETROS PFE ON
+	F.CCI_EMPRESA = PFE.CCI_EMPRESA	 INNER JOIN BIZ_GEN..TB_GEN_CLIPROV C with(forceseek) ON 
+	F.CCI_EMPRESA = C.CCI_EMPRESA
+	AND F.CCI_CLIENTE = C.CCI_CLIPROV
+	WHERE f.CCI_EMPRESA != ''
+	and F.CCI_TIPOCMPR = 'FAC'
+	AND F.CES_FACTURA IS NULL
+	and F.DFM_FECHA >= PFE.DFM_FECHA_INICIO
+	and PFE.CCI_EMPRESA != ''
+
+union
+
+	SELECT F.CCI_EMPRESA, 
+			F.CCI_SUCURSAL, 
+			F.CCI_CLIENTE, 
+			c.cno_cliprov,
+			F.DFM_FECHA,
+			F.CCI_TIPOCMPR, 
+			F.NCI_FACTURA AS NCI_DOCUMENTO,
+			F.ID_LOG_FE,
+			F.CCI_USUARIO,
+			F.DFX_REG_FECHA,
+			F.CES_FE,
+			F.CCI_CLAVE_ACCESO
+	FROM BIZ_FAC..TB_FAC_FACTURA F INNER JOIN BIZ_FAC..TB_FAC_FE_PARAMETROS PFE ON
+	F.CCI_EMPRESA = PFE.CCI_EMPRESA	 INNER JOIN BIZ_GEN..TB_GEN_CLIPROV C with(forceseek) ON 
+	F.CCI_EMPRESA = C.CCI_EMPRESA
+	AND F.CCI_CLIENTE = C.CCI_CLIPROV
+	WHERE f.CCI_EMPRESA != ''
+	and F.CCI_TIPOCMPR = 'NC'
+	AND F.CES_FACTURA IS NULL
+	and F.DFM_FECHA >= PFE.DFM_FECHA_INICIO
+	and PFE.CCI_EMPRESA != ''
+
+union
+
+SELECT DISTINCT R.CCI_EMPRESA,
+        R.CCI_SUCURSAL,
+        CMPR.COD_PROV AS CCI_CLIENTE,
+		c.cno_cliprov,
+        R.DFM_RETENCION,
+        'RET' AS CCI_TIPOCMPR,
+        R.NCI_RETENCION AS NCI_DOCUMENTO,
+        R.ID_LOG_FE,
+        R.CCI_USUARIO,
+        R.DFM_PROCESO,
+        R.CES_FE,
+        R.CCI_CLAVE_ACCESO
+FROM BIZ_CNT..TB_BAN_PRO_CMPR CMPR WITH(NOLOCK) INNER JOIN BIZ_CNT..TB_BAN_PRO_CMPR_RETENCION R WITH(NOLOCK) ON
+CMPR.CCI_EMPRESA = R.CCI_EMPRESA
+AND CMPR.CCI_SUCURSAL = R.CCI_SUCURSAL
+AND CMPR.CMP_CODIGO = R.CMP_CODIGO INNER JOIN BIZ_FAC..TB_FAC_FE_PARAMETROS PFE ON
+		R.CCI_EMPRESA = PFE.CCI_EMPRESA INNER JOIN BIZ_GEN..TB_GEN_CLIPROV C with(forceseek) ON 
+CMPR.CCI_EMPRESA = C.CCI_EMPRESA
+AND CMPR.COD_PROV = C.CCI_CLIPROV
+where r.CCI_EMPRESA != ''
+and R.DFM_RETENCION >= PFE.DFM_FECHA_INICIO
+and PFE.CCI_EMPRESA != ''
+
+union
+
+ SELECT R.CCI_EMPRESA,
+        R.CCI_SUCURSAL,	
+        R.CCI_CLIENTE,
+		c.cno_cliprov,
+        R.DFM_EMISION,
+        'GUI' AS CCI_TIPOCMPR,
+        R.NCI_GUIA AS NCI_DOCUMENTO,
+        R.ID_LOG_FE,
+        R.CCI_USUARIO,
+        R.DFM_REGISTRO,
+        R.CES_FE,
+        R.CCI_CLAVE_ACCESO
+FROM BIZ_INV_REP..TB_INV_GUIA_REMISION R INNER JOIN BIZ_FAC..TB_FAC_FE_PARAMETROS PFE ON
+R.CCI_EMPRESA = PFE.CCI_EMPRESA INNER JOIN BIZ_GEN..TB_GEN_CLIPROV C with(forceseek) ON 
+R.CCI_EMPRESA = C.CCI_EMPRESA
+AND R.CCI_CLIENTE = C.CCI_CLIPROV
+where PFE.CCI_EMPRESA != ''
+and R.DFM_EMISION >= PFE.DFM_FECHA_INICIO
+) F
+GO
+
 */

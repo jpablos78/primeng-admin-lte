@@ -32,6 +32,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   docs: any[];
   items: MenuItem[];
   documentos: ITB_FAC_DOCUMENTOS[];
+  selectedDocumentos: ITB_FAC_DOCUMENTOS[];
+  documento: ITB_FAC_DOCUMENTOS = {};
   estados: IEstados[];
   empresas: ITB_SEG_EMPRESA[];
   cci_tipocmpr: ICCI_TIPOCMPR[];
@@ -228,5 +230,55 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     this.txtTipocmpr = '';
     this.txtEmpresa = '';
     this.txtEstado = '';
+  }
+
+  imprimirDocumento(documento: ITB_FAC_DOCUMENTOS) {
+    this.documento = this.cloneRegistro(documento);
+    alert(this.documento.cci_empresa);
+  }
+
+  enviarMailDocumento(documento: ITB_FAC_DOCUMENTOS) {
+    this.documento = this.cloneRegistro(documento);
+    alert(this.documento.nci_documento);
+    console.log(this.selectedDocumentos);
+  }
+
+  onHeaderCheckboxToggle(event: any) {
+    //this.selectedDocumentos.length = 0;
+
+    //if (event.checked === true) {
+      //this.selectedDocumentos = this.documentos
+      //alert('goku');
+      //for (let m of this.documentos) {
+      //  //if (/* Make your test here if the array does not contain the element*/) {
+      //  this.selectedDocumentos.push(m);
+      //  //}
+      //}
+      //console.log(this.documentos);
+    //} else {
+      //this.selectedDocumentos.length = 0;
+    //}
+
+
+    //this.documentos.forEach(d => {
+    //console.log(d.);
+
+    //console.log(event.checked);
+
+    //d.estado_menu_favoritos = (event.checked === true ? 'A' : 'I');
+
+    //this.perfilesActivos.push({ label: d.descripcion_perfil, value: d.id_perfil });
+    //});
+  }
+
+  cloneRegistro(c: ITB_FAC_DOCUMENTOS): ITB_FAC_DOCUMENTOS {
+    const documento = {};
+    for (const prop in c) {
+      if (c) {
+        documento[prop] = c[prop];
+      }
+
+    }
+    return documento;
   }
 }

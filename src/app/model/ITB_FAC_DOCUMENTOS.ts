@@ -5,6 +5,7 @@ interface ITB_FAC_DOCUMENTOS {
     nci_documento?: number;
     ces_fe?: string;
     descripcion_ces_fe?: string;
+    id_log_fe?: number;
 }
 
 export default ITB_FAC_DOCUMENTOS;
