@@ -1,4 +1,4 @@
-<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="3" [lazy]="true"
+<p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="7" [lazy]="true"
     [totalRecords]="totalRecords$  | async" (onLazyLoad)="loadLazy($event)" [(first)]="first">
     <ng-template pTemplate="caption">
         Procesar Documentos Electronicoss

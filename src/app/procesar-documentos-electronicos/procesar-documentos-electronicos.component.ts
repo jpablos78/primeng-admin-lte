@@ -233,8 +233,17 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   }
 
   imprimirDocumento(documento: ITB_FAC_DOCUMENTOS) {
+    let imprimirDocumento = [];
     this.documento = this.cloneRegistro(documento);
     alert(this.documento.cci_empresa);
+
+    imprimirDocumento.push({
+      "cci_empresa": this.documento.cci_empresa,
+      "nci_documento": this.documento.nci_documento,
+      "opcion": 'P'
+    });
+
+    console.log(imprimirDocumento);
   }
 
   enviarMailDocumento(documento: ITB_FAC_DOCUMENTOS) {
@@ -247,16 +256,16 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     //this.selectedDocumentos.length = 0;
 
     //if (event.checked === true) {
-      //this.selectedDocumentos = this.documentos
-      //alert('goku');
-      //for (let m of this.documentos) {
-      //  //if (/* Make your test here if the array does not contain the element*/) {
-      //  this.selectedDocumentos.push(m);
-      //  //}
-      //}
-      //console.log(this.documentos);
+    //this.selectedDocumentos = this.documentos
+    //alert('goku');
+    //for (let m of this.documentos) {
+    //  //if (/* Make your test here if the array does not contain the element*/) {
+    //  this.selectedDocumentos.push(m);
+    //  //}
+    //}
+    //console.log(this.documentos);
     //} else {
-      //this.selectedDocumentos.length = 0;
+    //this.selectedDocumentos.length = 0;
     //}
 
 
