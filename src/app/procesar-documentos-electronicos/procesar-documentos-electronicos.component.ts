@@ -235,11 +235,15 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   imprimirDocumento(documento: ITB_FAC_DOCUMENTOS) {
     let imprimirDocumento = [];
     this.documento = this.cloneRegistro(documento);
-    alert(this.documento.cci_empresa);
+    //alert(this.documento.cci_empresa);
+    //alert(this.documento.ambiente);
 
     imprimirDocumento.push({
       "cci_empresa": this.documento.cci_empresa,
+      "cci_sucursal": this.documento.cci_sucursal,
+      "cci_tipocmpr": this.documento.cci_tipocmpr,
       "nci_documento": this.documento.nci_documento,
+      "ambiente": this.documento.ambiente,
       "opcion": 'P'
     });
 
