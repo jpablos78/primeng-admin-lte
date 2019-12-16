@@ -27,8 +27,9 @@ import { PasswordModule } from 'primeng/password';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AccordionModule } from 'primeng/accordion';
 import { ToastModule } from 'primeng/toast';
-import {PanelMenuModule} from 'primeng/panelmenu';
-import {TieredMenuModule} from 'primeng/tieredmenu';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import {TieredMenuModule} from 'primeng/tieredmenu';
         AccordionModule,
         ToastModule,
         PanelMenuModule,
-        TieredMenuModule
+        TieredMenuModule,
+        TooltipModule
     ],
     exports: [
         PanelModule,
@@ -92,7 +94,8 @@ import {TieredMenuModule} from 'primeng/tieredmenu';
         AccordionModule,
         ToastModule,
         PanelMenuModule,
-        TieredMenuModule
+        TieredMenuModule,
+        TooltipModule
     ],
 })
 export class PrimeNGModule { }

@@ -74,12 +74,12 @@
                     </div>
 
                     <div *ngSwitchCase="'pdf'">
-                        <button pButton icon="pi pi-cog" style="margin-right: .3em"
-                            *ngIf="rowData['ces_fe']!=='A'"></button>
-                        <button pButton icon="fa fa-print" style="margin-right: .3em"
-                            (click)="imprimirDocumento(rowData)"></button>
-                        <button pButton icon="fa fa-envelope" style="margin-right: .3em"
-                            (click)="enviarMailDocumento(rowData)"></button>
+                        <button pButton icon="pi pi-cog" style="margin-right: .3em" *ngIf="rowData['ces_fe']!=='A'"
+                            pTooltip="Proceso Completo" tooltipPosition="bottom"></button>
+                        <button pButton icon="fa fa-print" style="margin-right: .3em" pTooltip="Generar pdf"
+                            tooltipPosition="bottom" (click)="imprimirDocumento(rowData)"></button>
+                        <button pButton icon="fa fa-envelope" style="margin-right: .3em" pTooltip="Enviar Mail"
+                            tooltipPosition="bottom" (click)="enviarMailDocumento(rowData)"></button>
                         <!--<button pButton label="Click" style="height: 1.1em"></button>-->
                     </div>
 
