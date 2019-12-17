@@ -6,12 +6,15 @@ import { EstadosService } from '../services/estados.service';
 import { CciTipocmprService } from '../services/cci-tipocmpr.service';
 import { EmpresasService } from '../services/empresas.service';
 
+import { environment } from '../../environments/environment';
+
 import { Observable } from 'rxjs';
 
 import ITB_FAC_DOCUMENTOS from '../model/ITB_FAC_DOCUMENTOS';
 import IEstados from '../model/IEstados';
 import ICCI_TIPOCMPR from '../model/ICCI_TIPOCMPR';
 import ITB_SEG_EMPRESA from '../model/ITB_SEG_EMPRESA';
+//import IMensaje from '../model/IMensaje';
 
 @Component({
   selector: 'app-procesar-documentos-electronicos',
@@ -37,6 +40,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   estados: IEstados[];
   empresas: ITB_SEG_EMPRESA[];
   cci_tipocmpr: ICCI_TIPOCMPR[];
+  //mensaje: IMensaje = {};
   first = 0;
   //totalRecords: number;
 
@@ -46,6 +50,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   txtTipocmpr: any;
   txtEmpresa: any;
   txtEstado: any;
+
+  url = environment.baseUrl;
 
   constructor(
     private procesarDocumentosElectronicosService: ProcesarDocumentosElectronicosService,
@@ -243,6 +249,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       "cci_sucursal": this.documento.cci_sucursal,
       "cci_tipocmpr": this.documento.cci_tipocmpr,
       "nci_documento": this.documento.nci_documento,
+      "ces_fe": this.documento.ces_fe,
       "ambiente": this.documento.ambiente,
       "opcion": 'P'
     });
@@ -255,15 +262,71 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     postData.append('action', 'generarProcesoFE');
 
     this.procesarDocumentosElectronicosService.imprimirDocumento(postData).subscribe(
-      
+
       data => {
-        alert(data);
+        //alert(data.mensaje);
 
         //this.totalRecords$ = this.mantenimientoUsuarioService.getTotalRecords();
-        this.documentos = data;
+        //this.documentos = data;
         //console.log(this.perfiles);
         console.log(data);
-        window.open('http://localhost/FE/descargas/1601201901099265673500120010010000154671234567811.pdf', '_blank');
+
+        window.open(this.url + 'descargas/' + data.mensaje, '_blank');
+
+        if (data.mensaje2 != '') {
+          window.open(this.url + 'descargas/' + data.mensaje2, '_blank');
+        }
+      },
+      error => {
+        //this.displayWait = false;
+        //this.errorMsg = error;
+        //console.log(this.errorMsg);
+
+        //this.displayWait = false;
+        //this.displayMensaje = true;
+        //this.tipoMensaje = 'ERROR';
+      }
+    );
+  }
+
+  procesarDocumento(documento: ITB_FAC_DOCUMENTOS) {
+    let procesarDocumento = [];
+    this.documento = this.cloneRegistro(documento);
+    //alert(this.documento.cci_empresa);
+    //alert(this.documento.ambiente);
+
+    procesarDocumento.push({
+      "cci_empresa": this.documento.cci_empresa,
+      "cci_sucursal": this.documento.cci_sucursal,
+      "cci_tipocmpr": this.documento.cci_tipocmpr,
+      "nci_documento": this.documento.nci_documento,
+      "ces_fe": this.documento.ces_fe,
+      "ambiente": this.documento.ambiente,
+      "opcion": 'T'
+    });
+
+    console.log(procesarDocumento);
+
+    const postData = new FormData();
+
+    postData.append('json', JSON.stringify(procesarDocumento));
+    postData.append('action', 'generarProcesoFE');
+
+    this.procesarDocumentosElectronicosService.imprimirDocumento(postData).subscribe(
+
+      data => {
+        //alert(data.mensaje);
+
+        //this.totalRecords$ = this.mantenimientoUsuarioService.getTotalRecords();
+        //this.documentos = data;
+        //console.log(this.perfiles);
+        console.log(data);
+
+        //window.open(this.url + 'descargas/' + data.mensaje, '_blank');
+
+        //if (data.mensaje2 != '') {
+        //  window.open(this.url + 'descargas/' + data.mensaje2, '_blank');
+        //}
       },
       error => {
         //this.displayWait = false;
@@ -281,6 +344,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     this.documento = this.cloneRegistro(documento);
     alert(this.documento.nci_documento);
     console.log(this.selectedDocumentos);
+    window.open('http://localhost/FE/descargas/2811201901099265673500110010010000173621234567815_G.pdf');
   }
 
   onHeaderCheckboxToggle(event: any) {

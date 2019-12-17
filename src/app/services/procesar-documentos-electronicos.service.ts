@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 import ITB_FAC_DOCUMENTOS from '../model/ITB_FAC_DOCUMENTOS';
+import IMensaje from '../model/IMensaje';
 
 @Injectable({
   providedIn: 'root'
@@ -65,30 +66,50 @@ export class ProcesarDocumentosElectronicosService {
       );
   }
 
-  imprimirDocumento(postData) {
-    return this.http.post<any>(this.url, postData)
+  imprimirDocumento(postData): Observable<IMensaje> {
+    return this.http.post(this.url, postData)
       .pipe(
         map(res => {
-          return res.data;
-
-        /*  if (res.success) {
-            //alert('fddddd');
-            //if (res.ok === 'S') {
-            //  alert(res);
-            //this.totalRecords.next(res.total);
-            //this.totalRecords.next(res.total);
-            return res.data;
-            //} else {
-            //  throw (res.mensaje);
-            //}
-          } else {
-            console.log('error');
-            console.log('res.mensaje');
-            throw (res.mensaje);
-          }*/
-        }),
-        
-        //catchError(transformError)
-      );
+          return res as IMensaje;
+        })
+      )
   }
+
+  procesarDocumento(postData): Observable<IMensaje> {
+    return this.http.post(this.url, postData)
+      .pipe(
+        map(res => {
+          return res as IMensaje;
+        })
+      )
+  }
+
+  //  imprimirDocumento(postData) {
+  //    return this.http.post(this.url, postData)
+
+  //    return this.http.post<any>(this.url, postData)
+  //      .pipe(
+  //        map(res => {
+  //          return res.data;
+
+  /*  if (res.success) {
+      //alert('fddddd');
+      //if (res.ok === 'S') {
+      //  alert(res);
+      //this.totalRecords.next(res.total);
+      //this.totalRecords.next(res.total);
+      return res.data;
+      //} else {
+      //  throw (res.mensaje);
+      //}
+    } else {
+      console.log('error');
+      console.log('res.mensaje');
+      throw (res.mensaje);
+    }*/
+  //        }),
+
+  //catchError(transformError)
+  //      );
+  //  }
 }
