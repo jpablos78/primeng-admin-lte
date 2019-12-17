@@ -64,4 +64,31 @@ export class ProcesarDocumentosElectronicosService {
         //catchError(transformError)
       );
   }
+
+  imprimirDocumento(postData) {
+    return this.http.post<any>(this.url, postData)
+      .pipe(
+        map(res => {
+          return res.data;
+
+        /*  if (res.success) {
+            //alert('fddddd');
+            //if (res.ok === 'S') {
+            //  alert(res);
+            //this.totalRecords.next(res.total);
+            //this.totalRecords.next(res.total);
+            return res.data;
+            //} else {
+            //  throw (res.mensaje);
+            //}
+          } else {
+            console.log('error');
+            console.log('res.mensaje');
+            throw (res.mensaje);
+          }*/
+        }),
+        
+        //catchError(transformError)
+      );
+  }
 }

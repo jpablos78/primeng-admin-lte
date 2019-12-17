@@ -248,6 +248,33 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     });
 
     console.log(imprimirDocumento);
+
+    const postData = new FormData();
+
+    postData.append('json', JSON.stringify(imprimirDocumento));
+    postData.append('action', 'generarProcesoFE');
+
+    this.procesarDocumentosElectronicosService.imprimirDocumento(postData).subscribe(
+      
+      data => {
+        alert(data);
+
+        //this.totalRecords$ = this.mantenimientoUsuarioService.getTotalRecords();
+        this.documentos = data;
+        //console.log(this.perfiles);
+        console.log(data);
+        window.open('http://localhost/FE/descargas/1601201901099265673500120010010000154671234567811.pdf', '_blank');
+      },
+      error => {
+        //this.displayWait = false;
+        //this.errorMsg = error;
+        //console.log(this.errorMsg);
+
+        //this.displayWait = false;
+        //this.displayMensaje = true;
+        //this.tipoMensaje = 'ERROR';
+      }
+    );
   }
 
   enviarMailDocumento(documento: ITB_FAC_DOCUMENTOS) {
