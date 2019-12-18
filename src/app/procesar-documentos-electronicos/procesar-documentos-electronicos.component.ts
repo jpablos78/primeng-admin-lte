@@ -273,9 +273,11 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
 
         window.open(this.url + 'descargas/' + data.mensaje, '_blank');
 
+        /*
         if (data.mensaje2 != '') {
           window.open(this.url + 'descargas/' + data.mensaje2, '_blank');
         }
+        */
       },
       error => {
         //this.displayWait = false;
