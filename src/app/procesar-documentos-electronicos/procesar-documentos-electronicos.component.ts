@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MenuItem, LazyLoadEvent } from 'primeng/api';
+import { MenuItem, LazyLoadEvent, MessageService } from 'primeng/api';
 
 import { ProcesarDocumentosElectronicosService } from '../services/procesar-documentos-electronicos.service';
 import { EstadosService } from '../services/estados.service';
@@ -14,6 +14,8 @@ import ITB_FAC_DOCUMENTOS from '../model/ITB_FAC_DOCUMENTOS';
 import IEstados from '../model/IEstados';
 import ICCI_TIPOCMPR from '../model/ICCI_TIPOCMPR';
 import ITB_SEG_EMPRESA from '../model/ITB_SEG_EMPRESA';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { takeWhile } from 'rxjs/operators';
 //import IMensaje from '../model/IMensaje';
 
 @Component({
@@ -52,12 +54,20 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   txtEstado: any;
 
   url = environment.baseUrl;
+  displayDialogEmail: boolean;
+  displayDialogAddEmail: boolean;
+
+  emails: any[];
+  colsEmail: any[];
+  form: FormGroup;
 
   constructor(
     private procesarDocumentosElectronicosService: ProcesarDocumentosElectronicosService,
     private estadosService: EstadosService,
     private cciTipoCmprService: CciTipocmprService,
-    private empresasService: EmpresasService
+    private empresasService: EmpresasService,
+    private fb: FormBuilder,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -67,6 +77,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   }
 
   inicializarPantalla() {
+    this.buildFormAddMail();
     this.txtDocumento = '';
 
     this.cols = [
@@ -344,9 +355,44 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
 
   enviarMailDocumento(documento: ITB_FAC_DOCUMENTOS) {
     this.documento = this.cloneRegistro(documento);
-    alert(this.documento.nci_documento);
-    console.log(this.selectedDocumentos);
-    window.open('http://localhost/FE/descargas/2811201901099265673500110010010000173621234567815_G.pdf');
+
+    this.colsEmail = [
+      {
+        field: 'CNO_CLIPROV',
+        header: 'Nombre',
+        width: '45%'
+      },
+      {
+        field: 'CXT_MAIL',
+        header: 'Email',
+        width: '45%'
+      },
+    ]
+
+    this.emails = [];
+    this.emails.push({ CNO_CLIPROV: 'Bryan Cantos', CXT_MAIL: 'bcantos@inti-moda.com' });
+    this.emails.push({ CNO_CLIPROV: 'Edison Figueroa', CXT_MAIL: 'efigueroa@inti-moda.com' });
+    this.emails.push({ CNO_CLIPROV: 'Gloria Arreaga', CXT_MAIL: 'garreaga@inti-moda.com' });
+    this.emails.push({ CNO_CLIPROV: 'Hector Lara', CXT_MAIL: 'hlara@inti-moda.com' });
+    this.emails.push({ CNO_CLIPROV: 'Juan Pablo Sanchez', CXT_MAIL: 'jpsanchez@inti-moda.com' });
+    this.emails.push({ CNO_CLIPROV: 'Laura Hanna', CXT_MAIL: 'lhanna@inti-moda.com' });
+    this.emails.push({ CNO_CLIPROV: 'Lexy Leon', CXT_MAIL: 'lleon@inti-moda.com' });
+    this.emails.push({ CNO_CLIPROV: 'PASSARELA TEXTILES S.A. TEXTIPASS', CXT_MAIL: 'lhanna@inti-moda.com' });
+
+
+
+
+
+
+
+
+
+
+
+    //alert(this.documento.nci_documento);
+    //console.log(this.selectedDocumentos);
+    //window.open('http://localhost/FE/descargas/2811201901099265673500110010010000173621234567815_G.pdf');
+    this.displayDialogEmail = true;
   }
 
   onHeaderCheckboxToggle(event: any) {
@@ -386,5 +432,63 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
 
     }
     return documento;
+  }
+
+  addMail() {
+    this.form.controls.txtNombre.setValue('');
+    this.form.controls.txtEmail.setValue('');
+    this.displayDialogAddEmail = true;
+  }
+
+  buildFormAddMail() {
+    this.form = this.fb.group({
+      txtNombre: ['', [Validators.required, Validators.maxLength(100)]],
+      txtEmail: ['', [Validators.email, Validators.maxLength(50)]]
+    });
+  }
+
+  saveMail() {
+    if (!this.validateForm()) {
+      return;
+    }
+
+    this.emails.push({ CNO_CLIPROV: this.form.controls.txtNombre.value, CXT_MAIL: this.form.controls.txtEmail.value });
+  }
+
+  closeEmail() {
+    this.displayDialogAddEmail = false;
+  }
+
+  validateForm() {
+    let ok = true;
+
+    if (this.form.controls['txtNombre'].invalid) {
+      if (this.form.controls['txtNombre'].errors.required) {
+        this.showErrorMessage('Mensaje de Error en Nombre', 'El campo Nombre es obligatorio', 'txtNombre');
+      }
+
+      if (this.form.controls['txtNombre'].errors.maxlength) {
+        this.showErrorMessage('Mensaje de Error en Nombre', 'La longitud del campo no puede ser mayor a 100 caracteres', 'txtNombre');
+      }
+      ok = false;
+    }
+
+    if (this.form.controls['txtEmail'].invalid) {
+      if (this.form.controls['txtEmail'].errors.email) {
+        this.showErrorMessage('Mensaje de Error en Email', 'El formato del Email es incorrecto', 'txtEmail');
+      }
+
+      if (this.form.controls['txtEmail'].errors.maxlength) {
+        this.showErrorMessage('Mensaje de Error en Email', 'La longitud del campo no puede ser mayor a 50 caracteres', 'txtEmail');
+      }
+      ok = false;
+    }
+
+    return ok;
+  }
+
+  showErrorMessage(summary: string, detail: string, field: string) {
+    this.messageService.add({ severity: 'error', summary: summary, detail: detail });
+    this.form.get(field).markAsDirty();
   }
 }

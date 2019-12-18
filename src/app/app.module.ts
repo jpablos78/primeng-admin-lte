@@ -21,7 +21,7 @@ import { AppRoutesModule } from './app-routes.module';
 import { CambioClaveComponent } from './cambio-clave/cambio-clave.component';
 import { MenuFavoritosComponent } from './menu-favoritos/menu-favoritos.component';
 import { ProcesarDocumentosElectronicosComponent } from './procesar-documentos-electronicos/procesar-documentos-electronicos.component';
-
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,8 @@ import { ProcesarDocumentosElectronicosComponent } from './procesar-documentos-e
     ProcesarDocumentosElectronicosService,
     EstadosService,
     CciTipocmprService,
-    EmpresasService
+    EmpresasService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

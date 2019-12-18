@@ -75,7 +75,8 @@
 
                     <div *ngSwitchCase="'pdf'">
                         <button pButton icon="pi pi-cog" style="margin-right: .3em" *ngIf="rowData['ces_fe']!=='A'"
-                            pTooltip="Proceso Completo" tooltipPosition="bottom" (click)="procesarDocumento(rowData)"></button>
+                            pTooltip="Proceso Completo" tooltipPosition="bottom"
+                            (click)="procesarDocumento(rowData)"></button>
                         <button pButton icon="fa fa-print" style="margin-right: .3em" pTooltip="Generar pdf"
                             tooltipPosition="bottom" (click)="imprimirDocumento(rowData)"></button>
                         <button pButton icon="fa fa-envelope" style="margin-right: .3em" pTooltip="Enviar Mail"
@@ -168,3 +169,89 @@
     </ng-template>
 </p-table>
 -->
+
+<p-dialog header="Emails registrados" [(visible)]="displayDialogEmail" [responsive]="true" showEffect="fade"
+    [modal]="true" [style]="{width: '500px'}" focusOnShow="false">
+
+    <p-table [columns]="colsEmail" [value]="emails" [responsive]="true">
+        <ng-template pTemplate="caption">
+            Procesar Documentos Electronicos
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [ngStyle]="{'width': col.width, 'display': col.display}"
+                    [pSortableColumn]="col.field">
+                    {{col.header}}
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr style="height:1em">
+                <td *ngFor="let col of columns" style="height: 0.5em; font-size: 1em;">
+                    <span class="ui-column-title">{{ col.header }}</span>
+                    {{rowData[col.field]}}
+                </td>
+                <td>
+                    <!--<p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
+                    <p-checkbox name="group1" inputId="ny"></p-checkbox>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-footer>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-4" style="text-align: left">
+                <button pButton label="Cancelar" icon="fa fa-repeat" (click)="resetFilter()"
+                    class="ui-button-danger"></button>
+            </div>
+
+            <div class="p-col-12 p-md-4" style="text-align: center">
+                <button pButton label="Agregar Email" icon="fa fa-plus" (click)="addMail()"
+                    class="ui-button-info"></button>
+            </div>
+
+            <div class="p-col-12 p-md-4" style="text-align: right">
+                <button pButton label="Enviar Email" icon="fa fa-arrow-circle-o-right" (click)="resetFilter()"
+                    class="ui-button-success"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<form [formGroup]="form">
+    <p-dialog header="Agregar Email" [(visible)]="displayDialogAddEmail" [responsive]="true" showEffect="fade"
+        [modal]="true" [style]="{width: '300px'}" focusOnShow="false">
+
+        <div class="p-grid">
+            <div class="p-col-3">
+                <label for="nombre">Nombre</label>
+            </div>
+            <div class="p-col-9">
+                <input pInputText id="nombre" oninput="this.value = this.value.toUpperCase()"
+                    (click)="$event.target.select()" (keydown)="onKeydown($event)" formControlName="txtNombre"
+                    #txtNombre1 />
+            </div>
+            <div class="p-col-3">
+                <label for="email">Email</label>
+            </div>
+            <div class="p-col-9">
+                <input pInputText type="email" id="email" (click)="$event.target.select()" (keydown)="onKeydown($event)"
+                    formControlName="txtEmail" #txtEmail1 />
+            </div>
+        </div>
+
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="fa fa-close" (click)="closeEmail()" label="Cerrar"></button>
+                <button type="button" pButton icon="fa fa-check" (click)="saveMail()" label="Save"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+</form>
