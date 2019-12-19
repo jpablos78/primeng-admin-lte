@@ -358,40 +358,29 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
 
     this.colsEmail = [
       {
-        field: 'CNO_CLIPROV',
+        field: 'nombre',
         header: 'Nombre',
         width: '45%'
       },
       {
-        field: 'CXT_MAIL',
+        field: 'mail',
         header: 'Email',
         width: '45%'
       },
     ]
 
     this.emails = [];
-    this.emails.push({ CNO_CLIPROV: 'Bryan Cantos', CXT_MAIL: 'bcantos@inti-moda.com' });
-    this.emails.push({ CNO_CLIPROV: 'Edison Figueroa', CXT_MAIL: 'efigueroa@inti-moda.com' });
-    this.emails.push({ CNO_CLIPROV: 'Gloria Arreaga', CXT_MAIL: 'garreaga@inti-moda.com' });
-    this.emails.push({ CNO_CLIPROV: 'Hector Lara', CXT_MAIL: 'hlara@inti-moda.com' });
-    this.emails.push({ CNO_CLIPROV: 'Juan Pablo Sanchez', CXT_MAIL: 'jpsanchez@inti-moda.com' });
-    this.emails.push({ CNO_CLIPROV: 'Laura Hanna', CXT_MAIL: 'lhanna@inti-moda.com' });
-    this.emails.push({ CNO_CLIPROV: 'Lexy Leon', CXT_MAIL: 'lleon@inti-moda.com' });
-    this.emails.push({ CNO_CLIPROV: 'PASSARELA TEXTILES S.A. TEXTIPASS', CXT_MAIL: 'lhanna@inti-moda.com' });
+    this.emails.push({ a: 1, nombre: 'Bryan Cantos', mail: 'bcantos@inti-moda.com', CHECK: false });
+    this.emails.push({ a: 1, nombre: 'Edison Figueroa', mail: 'efigueroa@inti-moda.com', CHECK: false });
+    this.emails.push({ a: 1, nombre: 'Gloria Arreaga', mail: 'garreaga@inti-moda.com', CHECK: false });
+    this.emails.push({ a: 1, nombre: 'Hector Lara', mail: 'hlara@inti-moda.com', CHECK: false });
+    this.emails.push({ a: 1, nombre: 'Juan Pablo Sanchez', mail: 'jpsanchez@inti-moda.com', CHECK: false });
+    this.emails.push({ a: 1, nombre: 'Laura Hanna', mail: 'lhanna@inti-moda.com', CHECK: false });
+    this.emails.push({ a: 1, nombre: 'Lexy Leon', mail: 'lleon@inti-moda.com', CHECK: false });
+    this.emails.push({ a: 1, nombre: 'PASSARELA TEXTILES S.A. TEXTIPASS', mail: 'lhanna@inti-moda.com', CHECK: false });
 
 
-
-
-
-
-
-
-
-
-
-    //alert(this.documento.nci_documento);
-    //console.log(this.selectedDocumentos);
-    //window.open('http://localhost/FE/descargas/2811201901099265673500110010010000173621234567815_G.pdf');
+    console.log(this.emails);
     this.displayDialogEmail = true;
   }
 
@@ -452,11 +441,42 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       return;
     }
 
-    this.emails.push({ CNO_CLIPROV: this.form.controls.txtNombre.value, CXT_MAIL: this.form.controls.txtEmail.value });
+    this.emails.unshift({ a: 1, nombre: this.form.controls.txtNombre.value, mail: this.form.controls.txtEmail.value, CHECK: true });
+    this.displayDialogAddEmail = false;
   }
 
   closeEmail() {
     this.displayDialogAddEmail = false;
+  }
+
+  sendMail() {
+    let sendMail = this.emails.filter(email => email.CHECK);
+    let enviarMailDocumento = [];
+    //this.documento = this.cloneRegistro(documento);
+    //alert(this.documento.cci_empresa);
+    //alert(this.documento.ambiente);
+
+    enviarMailDocumento.push({
+      "cci_empresa": this.documento.cci_empresa,
+      "cci_sucursal": this.documento.cci_sucursal,
+      "cci_tipocmpr": this.documento.cci_tipocmpr,
+      "nci_documento": this.documento.nci_documento,
+      "ces_fe": this.documento.ces_fe,
+      "ambiente": this.documento.ambiente,
+      "opcion": 'M',
+      "mail": sendMail
+
+    });
+
+    console.log(enviarMailDocumento);
+
+    console.log(sendMail);
+    console.log(this.documento);
+
+    if (sendMail.length <= 0) {
+      this.showErrorMessage('Error en envio de correo', 'No ha seleccionado ningun correo.', '');
+      return;
+    }
   }
 
   validateForm() {
@@ -489,6 +509,13 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
 
   showErrorMessage(summary: string, detail: string, field: string) {
     this.messageService.add({ severity: 'error', summary: summary, detail: detail });
-    this.form.get(field).markAsDirty();
+
+    if (field != '') {
+      this.form.get(field).markAsDirty();
+    }
   }
+  onChangeCheckbox() {
+    console.log(this.emails);
+  }
+
 }

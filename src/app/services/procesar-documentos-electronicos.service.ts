@@ -66,6 +66,10 @@ export class ProcesarDocumentosElectronicosService {
       );
   }
 
+  /*getMailsDocumento(postData): Observable<> {
+
+  }*/
+
   imprimirDocumento(postData): Observable<IMensaje> {
     return this.http.post(this.url, postData)
       .pipe(

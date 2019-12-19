@@ -171,7 +171,7 @@
 -->
 
 <p-dialog header="Emails registrados" [(visible)]="displayDialogEmail" [responsive]="true" showEffect="fade"
-    [modal]="true" [style]="{width: '500px'}" focusOnShow="false">
+    [modal]="true" [contentStyle]="{'max-height':'60vh', width: '500px'}" focusOnShow="false">
 
     <p-table [columns]="colsEmail" [value]="emails" [responsive]="true">
         <ng-template pTemplate="caption">
@@ -197,7 +197,8 @@
                 </td>
                 <td>
                     <!--<p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
-                    <p-checkbox name="group1" inputId="ny"></p-checkbox>
+                    <p-checkbox name="group1" inputId="ny" binary="true" (onChange)="onChangeCheckbox()"
+                        [(ngModel)]="rowData['CHECK']"></p-checkbox>
                 </td>
             </tr>
         </ng-template>
@@ -206,7 +207,7 @@
     <p-footer>
         <div class="p-grid">
             <div class="p-col-12 p-md-4" style="text-align: left">
-                <button pButton label="Cancelar" icon="fa fa-repeat" (click)="resetFilter()"
+                <button pButton label="Cancelar" icon="fa fa-repeat" (click)="displayDialogEmail=false;"
                     class="ui-button-danger"></button>
             </div>
 
@@ -216,7 +217,7 @@
             </div>
 
             <div class="p-col-12 p-md-4" style="text-align: right">
-                <button pButton label="Enviar Email" icon="fa fa-arrow-circle-o-right" (click)="resetFilter()"
+                <button pButton label="Enviar Email" icon="fa fa-arrow-circle-o-right" (click)="sendMail()"
                     class="ui-button-success"></button>
             </div>
         </div>
@@ -227,7 +228,7 @@
 
 <form [formGroup]="form">
     <p-dialog header="Agregar Email" [(visible)]="displayDialogAddEmail" [responsive]="true" showEffect="fade"
-        [modal]="true" [style]="{width: '300px'}" focusOnShow="false">
+        [modal]="true" [contentStyle]="{'max-height':'20vh', width: '400px'}" focusOnShow="false">
 
         <div class="p-grid">
             <div class="p-col-3">
