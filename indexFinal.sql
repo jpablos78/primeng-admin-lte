@@ -218,5 +218,11 @@ and R.DFM_EMISION >= PFE.DFM_FECHA_INICIO
 ) F
 GO
 
-
+https://code.tutsplus.com/es/tutorials/how-to-use-map-filter-reduce-in-javascript--cms-26209
+https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
+https://www.quora.com/How-do-you-check-if-an-array-is-empty-in-JavaScript
+https://ed.team/blog/javascript-filtrar-elementos-de-un-array-con-filter
+https://alligator.io/js/filter-array-method/
+https://stackoverflow.com/questions/8073673/how-can-i-add-new-array-elements-at-the-beginning-of-an-array-in-javascript
+https://www.w3schools.com/jsref/jsref_unshift.asp
 */

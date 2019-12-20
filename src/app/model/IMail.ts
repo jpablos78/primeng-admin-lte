@@ -1,8 +1,8 @@
 interface IMail {
-    a: number;
-    value: any;
+    a?: number;
+    nombre?: string;
+    mail?: string;
+    check?: boolean
 }
 
 export default IMail;
-
-//a: 1, nombre: 'Bryan Cantos', mail: 'bcantos@inti-moda.com', CHECK: false

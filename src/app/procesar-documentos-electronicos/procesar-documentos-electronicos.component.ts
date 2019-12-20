@@ -370,18 +370,60 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     ]
 
     this.emails = [];
-    this.emails.push({ a: 1, nombre: 'Bryan Cantos', mail: 'bcantos@inti-moda.com', CHECK: false });
-    this.emails.push({ a: 1, nombre: 'Edison Figueroa', mail: 'efigueroa@inti-moda.com', CHECK: false });
-    this.emails.push({ a: 1, nombre: 'Gloria Arreaga', mail: 'garreaga@inti-moda.com', CHECK: false });
-    this.emails.push({ a: 1, nombre: 'Hector Lara', mail: 'hlara@inti-moda.com', CHECK: false });
-    this.emails.push({ a: 1, nombre: 'Juan Pablo Sanchez', mail: 'jpsanchez@inti-moda.com', CHECK: false });
-    this.emails.push({ a: 1, nombre: 'Laura Hanna', mail: 'lhanna@inti-moda.com', CHECK: false });
-    this.emails.push({ a: 1, nombre: 'Lexy Leon', mail: 'lleon@inti-moda.com', CHECK: false });
-    this.emails.push({ a: 1, nombre: 'PASSARELA TEXTILES S.A. TEXTIPASS', mail: 'lhanna@inti-moda.com', CHECK: false });
+    //this.emails.push({ a: 1, nombre: 'Bryan Cantos', mail: 'bcantos@inti-moda.com', check: false });
+    //this.emails.push({ a: 1, nombre: 'Edison Figueroa', mail: 'efigueroa@inti-moda.com', check: false });
+    //this.emails.push({ a: 1, nombre: 'Gloria Arreaga', mail: 'garreaga@inti-moda.com', check: false });
+    //this.emails.push({ a: 1, nombre: 'Hector Lara', mail: 'hlara@inti-moda.com', check: false });
+    //this.emails.push({ a: 1, nombre: 'Juan Pablo Sanchez', mail: 'jpsanchez@inti-moda.com', check: false });
+    //this.emails.push({ a: 1, nombre: 'Laura Hanna', mail: 'lhanna@inti-moda.com', check: false });
+    //this.emails.push({ a: 1, nombre: 'Lexy Leon', mail: 'lleon@inti-moda.com', check: false });
+    //this.emails.push({ a: 1, nombre: 'PASSARELA TEXTILES S.A. TEXTIPASS', mail: 'lhanna@inti-moda.com', check: false });
+
+
+    const postData = new FormData();
+
+    postData.append('cci_empresa', this.documento.cci_empresa);
+    postData.append('cci_sucursal', this.documento.cci_sucursal);
+    postData.append('cci_tipocmpr', this.documento.cci_tipocmpr);
+    postData.append('nci_documento', this.documento.nci_documento.toString());
+    postData.append('action', 'getMailsDocumento');
+
+    this.procesarDocumentosElectronicosService.getMailsDocumento(postData).subscribe(
+
+      data => {
+        //alert(data.mensaje);
+
+        //this.totalRecords$ = this.mantenimientoUsuarioService.getTotalRecords();
+        //this.documentos = data;
+        //console.log(this.perfiles);
+        console.log(data);
+
+        this.emails = data;
+
+        console.log(this.emails);
+
+        this.displayDialogEmail = true;
+
+        //window.open(this.url + 'descargas/' + data.mensaje, '_blank');
+
+        //if (data.mensaje2 != '') {
+        //  window.open(this.url + 'descargas/' + data.mensaje2, '_blank');
+        //}
+      },
+      error => {
+        //this.displayWait = false;
+        //this.errorMsg = error;
+        //console.log(this.errorMsg);
+
+        //this.displayWait = false;
+        //this.displayMensaje = true;
+        //this.tipoMensaje = 'ERROR';
+      }
+    );
 
 
     console.log(this.emails);
-    this.displayDialogEmail = true;
+
   }
 
   onHeaderCheckboxToggle(event: any) {
@@ -441,7 +483,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       return;
     }
 
-    this.emails.unshift({ a: 1, nombre: this.form.controls.txtNombre.value, mail: this.form.controls.txtEmail.value, CHECK: true });
+    this.emails.unshift({ a: 1, nombre: this.form.controls.txtNombre.value, mail: this.form.controls.txtEmail.value, check: true });
     this.displayDialogAddEmail = false;
   }
 
@@ -450,7 +492,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   }
 
   sendMail() {
-    let sendMail = this.emails.filter(email => email.CHECK);
+    let sendMail = this.emails.filter(email => email.check);
     let enviarMailDocumento = [];
     //this.documento = this.cloneRegistro(documento);
     //alert(this.documento.cci_empresa);
@@ -477,6 +519,38 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       this.showErrorMessage('Error en envio de correo', 'No ha seleccionado ningun correo.', '');
       return;
     }
+
+    const postData = new FormData();
+
+    postData.append('json', JSON.stringify(enviarMailDocumento));
+    postData.append('action', 'generarProcesoFE');
+
+    this.procesarDocumentosElectronicosService.enviarMailDocumento(postData).subscribe(
+
+      data => {
+        //alert(data.mensaje);
+
+        //this.totalRecords$ = this.mantenimientoUsuarioService.getTotalRecords();
+        //this.documentos = data;
+        //console.log(this.perfiles);
+        console.log(data);
+
+        //window.open(this.url + 'descargas/' + data.mensaje, '_blank');
+
+        //if (data.mensaje2 != '') {
+        //  window.open(this.url + 'descargas/' + data.mensaje2, '_blank');
+        //}
+      },
+      error => {
+        //this.displayWait = false;
+        //this.errorMsg = error;
+        //console.log(this.errorMsg);
+
+        //this.displayWait = false;
+        //this.displayMensaje = true;
+        //this.tipoMensaje = 'ERROR';
+      }
+    );
   }
 
   validateForm() {

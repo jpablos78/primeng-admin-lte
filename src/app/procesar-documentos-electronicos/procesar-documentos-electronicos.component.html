@@ -8,6 +8,7 @@
         <tr>
             <th style="width: 3em">
                 <!--<p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
+                <p-checkbox></p-checkbox>
             </th>
             <th *ngFor="let col of columns" [ngStyle]="{'width': col.width, 'display': col.display}"
                 [pSortableColumn]="col.field">
@@ -198,7 +199,7 @@
                 <td>
                     <!--<p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
                     <p-checkbox name="group1" inputId="ny" binary="true" (onChange)="onChangeCheckbox()"
-                        [(ngModel)]="rowData['CHECK']"></p-checkbox>
+                        [(ngModel)]="rowData['check']"></p-checkbox>
                 </td>
             </tr>
         </ng-template>

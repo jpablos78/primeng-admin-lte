@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 import ITB_FAC_DOCUMENTOS from '../model/ITB_FAC_DOCUMENTOS';
+import IMail from '../model/IMail';
 import IMensaje from '../model/IMensaje';
 
 @Injectable({
@@ -66,9 +67,29 @@ export class ProcesarDocumentosElectronicosService {
       );
   }
 
-  /*getMailsDocumento(postData): Observable<> {
-
-  }*/
+  getMailsDocumento(postData): Observable<IMail[]> {
+    return this.http.post<any>(this.url, postData)
+      .pipe(
+        map(res => {
+          if (res.success) {
+            //alert('fddddd');
+            //if (res.ok === 'S') {
+            //  alert(res);
+            //this.totalRecords.next(res.total);
+            //this.totalRecords.next(res.total);
+            return res.data as IMail[];
+            //} else {
+            //  throw (res.mensaje);
+            //}
+          } else {
+            console.log('error');
+            console.log('res.mensaje');
+            throw (res.mensaje);
+          }
+        }),
+        //catchError(transformError)
+      );
+  }
 
   imprimirDocumento(postData): Observable<IMensaje> {
     return this.http.post(this.url, postData)
@@ -80,6 +101,15 @@ export class ProcesarDocumentosElectronicosService {
   }
 
   procesarDocumento(postData): Observable<IMensaje> {
+    return this.http.post(this.url, postData)
+      .pipe(
+        map(res => {
+          return res as IMensaje;
+        })
+      )
+  }
+
+  enviarMailDocumento(postData): Observable<IMensaje> {
     return this.http.post(this.url, postData)
       .pipe(
         map(res => {
