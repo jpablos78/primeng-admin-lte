@@ -9,7 +9,7 @@
         <tr>
             <th style="width: 3em">
                 <!--<p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
-                <p-checkbox></p-checkbox>
+                <!--<p-checkbox></p-checkbox>-->
             </th>
             <th *ngFor="let col of columns" [ngStyle]="{'width': col.width, 'display': col.display}"
                 [pSortableColumn]="col.field">
@@ -27,21 +27,24 @@
             </th>
             <th *ngFor="let col of columns" [ngSwitch]="col.field">
                 <p-multiSelect *ngSwitchCase="'cci_empresa'" [options]="empresas" [style]="{'width':'100%'}"
-                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)"
+                    defaultLabel="TODOS"
+                    (onChange)="dt.filter($event.value, col.field, col.filterMatchMode);onChangeFilters()"
                     [(ngModel)]="txtEmpresa">
                 </p-multiSelect>
 
                 <p-multiSelect *ngSwitchCase="'cci_tipocmpr'" [options]="cci_tipocmpr" [style]="{'width':'100%'}"
-                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)"
+                    defaultLabel="TODOS"
+                    (onChange)="dt.filter($event.value, col.field, col.filterMatchMode);onChangeFilters()"
                     [(ngModel)]="txtTipocmpr">
                 </p-multiSelect>
 
                 <input *ngSwitchCase="'nci_documento'" pInputText type="text" [style]="{'width':'100%'}"
-                    (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" pKeyFilter="int"
-                    [(ngModel)]="txtDocumento">
+                    (input)="dt.filter($event.target.value, col.field, col.filterMatchMode);onChangeFilters()"
+                    pKeyFilter="int" [(ngModel)]="txtDocumento">
 
                 <p-multiSelect *ngSwitchCase="'ces_fe'" [options]="estados" [style]="{'width':'100%'}"
-                    defaultLabel="TODOS" (onChange)="dt.filter($event.value, col.field, col.filterMatchMode)"
+                    defaultLabel="TODOS"
+                    (onChange)="dt.filter($event.value, col.field, col.filterMatchMode);onChangeFilters()"
                     [(ngModel)]="txtEstado">
                 </p-multiSelect>
             </th>
@@ -53,13 +56,13 @@
             <td style="height: 0.8em; font-size: 1em;">
                 <!--<p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
                 <p-checkbox name="group2" inputId="ny2" binary="true" (onChange)="onChangeCheckboxAll(rowData)"
-                [(ngModel)]="rowData['check']"></p-checkbox>
+                    [(ngModel)]="rowData['check']"></p-checkbox>
             </td>
             <td *ngFor="let col of columns" style="height: 0.5em; font-size: 1em;">
                 <span class="ui-column-title">{{ col.header }}</span>
 
                 <span [ngSwitch]="col.field">
-                    <div *ngSwitchCase="'cci_empresa'"> {{rowData['cno_empresa']}} </div>
+                    <div *ngSwitchCase="'cci_empresa'" style="font-size: 0.8em;"> {{rowData['cno_empresa']}} </div>
 
                     <div *ngSwitchCase="'cci_tipocmpr'"> {{rowData['descripcion_cci_tipocmpr']}} </div>
 
@@ -87,7 +90,7 @@
                         <!--<button pButton label="Click" style="height: 1.1em"></button>-->
                     </div>
 
-                    <div *ngSwitchDefault> {{rowData[col.field]}} </div>
+                    <div *ngSwitchDefault style="font-size: 0.8em;"> {{rowData[col.field]}} </div>
                 </span>
 
                 <!--<span *ngIf="col.field=='cci_empresa'">
@@ -259,3 +262,19 @@
         </p-footer>
     </p-dialog>
 </form>
+
+<p-dialog [(visible)]="displayWait" [modal]="true" [closable]="false" styleClass="my-dialog">
+    <p-header>
+        Procesando
+    </p-header>
+
+    <div class="p-grid">
+        <div class="p-col"></div>
+        <div class="p-col">
+            <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE"
+                animationDuration=".5s">
+            </p-progressSpinner>
+        </div>
+        <div class="p-col"></div>
+    </div>
+</p-dialog>

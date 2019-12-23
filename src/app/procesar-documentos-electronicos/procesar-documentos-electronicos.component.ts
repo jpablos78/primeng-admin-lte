@@ -29,7 +29,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   //empresas: any[];
   tipo: any[];
   filtering() {
-    //alert('fffff');
+    alert('fffff');
     this.dt.reset();
   }
 
@@ -58,6 +58,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   url = environment.baseUrl;
   displayDialogEmail: boolean;
   displayDialogAddEmail: boolean;
+  displayWait: boolean;
 
   emails: any[];
   colsEmail: any[];
@@ -88,25 +89,31 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         field: 'cci_empresa',
         header: 'Empresa',
         filterMatchMode: 'in',
-        width: '20%'
+        width: '12%'
+      },
+      {
+        field: 'cno_cliprov',
+        header: 'Cliente',
+        filterMatchMode: 'in',
+        width: '17%'
       },
       {
         field: 'cci_tipocmpr',
         header: 'Tipo',
         filterMatchMode: 'in',
-        width: '20%'
+        width: '15%'
       },
       {
         field: 'nci_documento',
         header: 'Documento',
         filterMatchMode: 'contains',
-        width: '15%'
+        width: '10%'
       },
       {
         field: 'ces_fe',
         header: 'Estado',
         filterMatchMode: 'in',
-        width: '15%'
+        width: '10%'
       },
       {
         field: 'pdf',
@@ -211,6 +218,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     postData.append('filters', JSON.stringify(event.filters));
     postData.append('action', 'getDocumentos');
 
+
+    this.displayWait = true;
     this.procesarDocumentosElectronicosService.getDocumentos(postData).subscribe(
       data => {
 
@@ -227,9 +236,10 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         this.marcarDocumentos(this.documentos)
 
         console.log(data);
+        this.displayWait = false;
       },
       error => {
-        //this.displayWait = false;
+        this.displayWait = false;
         //this.errorMsg = error;
         //console.log(this.errorMsg);
 
@@ -253,11 +263,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   marcarDocumentos(documentos) {
     this.documentosSeleccionados.forEach(function (documento, index) {
       documentos.forEach(function (data1, index1) {
-        if (data1['cci_empresa'] == documento['cci_empresa']
-          && data1['cci_sucursal'] == documento['cci_sucursal']
-          && data1['cci_tipocmpr'] == documento['cci_tipocmpr']
-          && data1['nci_documento'] == documento['nci_documento']) {
-          alert('encontrado');
+        if (data1['cci_clave_acceso'] == documento['cci_clave_acceso']) {
           console.log(data1);
           data1['check'] = true;
           console.log(data1);
@@ -272,7 +278,23 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   }
 
   save() {
-    alert('save');
+    console.log(this.documentosSeleccionados);
+    if (this.documentosSeleccionados.length <= 0) {
+      return;
+    }
+
+
+    //this.procesarDocumento(this.documentosSeleccionados);
+
+    //this.documentosSeleccionados.forEach(function (docSel, i) {
+    //  console.log(docSel);
+    //  this.procesarDocumento(this.docSel);
+    //});
+
+    this.documentosSeleccionados.forEach((docSel) => {
+      console.log(docSel);
+      this.procesarDocumento(docSel);
+    });
 
   }
 
@@ -282,6 +304,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     this.txtTipocmpr = '';
     this.txtEmpresa = '';
     this.txtEstado = '';
+
+    this.documentosSeleccionados = [];
   }
 
   imprimirDocumento(documento: ITB_FAC_DOCUMENTOS) {
@@ -307,6 +331,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     postData.append('json', JSON.stringify(imprimirDocumento));
     postData.append('action', 'generarProcesoFE');
 
+    this.displayWait = true;
     this.procesarDocumentosElectronicosService.imprimirDocumento(postData).subscribe(
 
       data => {
@@ -317,6 +342,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         //console.log(this.perfiles);
         console.log(data);
 
+        this.displayWait = false;
+
         window.open(this.url + 'descargas/' + data.mensaje, '_blank');
 
         /*
@@ -326,7 +353,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         */
       },
       error => {
-        //this.displayWait = false;
+        this.displayWait = false;
         //this.errorMsg = error;
         //console.log(this.errorMsg);
 
@@ -360,6 +387,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     postData.append('json', JSON.stringify(procesarDocumento));
     postData.append('action', 'generarProcesoFE');
 
+    this.displayWait = true;
     this.procesarDocumentosElectronicosService.imprimirDocumento(postData).subscribe(
 
       data => {
@@ -368,6 +396,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         //this.totalRecords$ = this.mantenimientoUsuarioService.getTotalRecords();
         //this.documentos = data;
         //console.log(this.perfiles);
+
+        this.displayWait = false;
         console.log(data);
 
         //window.open(this.url + 'descargas/' + data.mensaje, '_blank');
@@ -377,7 +407,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         //}
       },
       error => {
-        //this.displayWait = false;
+        this.displayWait = false;
         //this.errorMsg = error;
         //console.log(this.errorMsg);
 
@@ -423,6 +453,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     postData.append('nci_documento', this.documento.nci_documento.toString());
     postData.append('action', 'getMailsDocumento');
 
+    this.displayWait = true;
     this.procesarDocumentosElectronicosService.getMailsDocumento(postData).subscribe(
 
       data => {
@@ -437,6 +468,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
 
         console.log(this.emails);
 
+        this.displayWait = false;
+
         this.displayDialogEmail = true;
 
         //window.open(this.url + 'descargas/' + data.mensaje, '_blank');
@@ -446,7 +479,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         //}
       },
       error => {
-        //this.displayWait = false;
+        this.displayWait = false;
         //this.errorMsg = error;
         //console.log(this.errorMsg);
 
@@ -630,16 +663,31 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   onChangeCheckboxAll(documento) {
     console.log(documento);
 
-    this.documentosSeleccionados.push({
-      "cci_empresa": documento.cci_empresa,
-      "cci_sucursal": documento.cci_sucursal,
-      "cci_tipocmpr": documento.cci_tipocmpr,
-      "nci_documento": documento.nci_documento,
-    });
+
+    if (documento.check) {
+      this.documentosSeleccionados.push({
+        "cci_empresa": documento.cci_empresa,
+        "cci_sucursal": documento.cci_sucursal,
+        "cci_tipocmpr": documento.cci_tipocmpr,
+        "nci_documento": documento.nci_documento,
+        "ces_fe": documento.ces_fe,
+        "ambiente": documento.ambiente,
+        "opcion": 'P',
+        "cci_clave_acceso": documento.cci_clave_acceso
+      });
+    } else {
+      this.documentosSeleccionados = this.documentosSeleccionados.filter(docSel => docSel.cci_clave_acceso != documento.cci_clave_acceso)
+    }
+
+
   }
 
   paginate(event) {
     //alert('paginacion');
     console.log(this.documentosSeleccionados);
+  }
+
+  onChangeFilters() {
+    this.documentosSeleccionados = [];
   }
 }
