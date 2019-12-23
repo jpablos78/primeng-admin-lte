@@ -37,7 +37,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   docs: any[];
   items: MenuItem[];
   documentos: ITB_FAC_DOCUMENTOS[];
-  selectedDocumentos: ITB_FAC_DOCUMENTOS[];
+  //selectedDocumentos: ITB_FAC_DOCUMENTOS[];
   documento: ITB_FAC_DOCUMENTOS = {};
   estados: IEstados[];
   empresas: ITB_SEG_EMPRESA[];
@@ -52,6 +52,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   txtTipocmpr: any;
   txtEmpresa: any;
   txtEstado: any;
+
+  documentosSeleccionados: any[];
 
   url = environment.baseUrl;
   displayDialogEmail: boolean;
@@ -79,6 +81,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   inicializarPantalla() {
     this.buildFormAddMail();
     this.txtDocumento = '';
+    this.documentosSeleccionados = [];
 
     this.cols = [
       {
@@ -203,16 +206,26 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       postData.append('sortOrder', event.sortOrder.toString());
     }
 
+
+
     postData.append('filters', JSON.stringify(event.filters));
     postData.append('action', 'getDocumentos');
 
     this.procesarDocumentosElectronicosService.getDocumentos(postData).subscribe(
       data => {
+
         //alert(data);
 
         //this.totalRecords$ = this.mantenimientoUsuarioService.getTotalRecords();
-        this.documentos = data;
+        //this.documentos = data;
         //console.log(this.perfiles);
+
+        //if (this.documentosSeleccionados.length == 0) {
+        this.documentos = data;
+        //}
+
+        this.marcarDocumentos(this.documentos)
+
         console.log(data);
       },
       error => {
@@ -234,6 +247,28 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         console.log(this.documentos);
       }
     );*/
+  }
+
+
+  marcarDocumentos(documentos) {
+    this.documentosSeleccionados.forEach(function (documento, index) {
+      documentos.forEach(function (data1, index1) {
+        if (data1['cci_empresa'] == documento['cci_empresa']
+          && data1['cci_sucursal'] == documento['cci_sucursal']
+          && data1['cci_tipocmpr'] == documento['cci_tipocmpr']
+          && data1['nci_documento'] == documento['nci_documento']) {
+          alert('encontrado');
+          console.log(data1);
+          data1['check'] = true;
+          console.log(data1);
+        }
+      });
+
+      //this.documentos = data;
+    }
+
+    );
+
   }
 
   save() {
@@ -592,4 +627,19 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
     console.log(this.emails);
   }
 
+  onChangeCheckboxAll(documento) {
+    console.log(documento);
+
+    this.documentosSeleccionados.push({
+      "cci_empresa": documento.cci_empresa,
+      "cci_sucursal": documento.cci_sucursal,
+      "cci_tipocmpr": documento.cci_tipocmpr,
+      "nci_documento": documento.nci_documento,
+    });
+  }
+
+  paginate(event) {
+    //alert('paginacion');
+    console.log(this.documentosSeleccionados);
+  }
 }

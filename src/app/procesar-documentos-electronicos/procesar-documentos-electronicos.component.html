@@ -1,5 +1,6 @@
 <p-table #dt [columns]="cols" [value]="documentos" [responsive]="true" [paginator]="true" [rows]="7" [lazy]="true"
-    [totalRecords]="totalRecords$  | async" (onLazyLoad)="loadLazy($event)" [(first)]="first">
+    [totalRecords]="totalRecords$  | async" (onLazyLoad)="loadLazy($event)" [(first)]="first"
+    (onPage)="paginate($event)">
     <ng-template pTemplate="caption">
         Procesar Documentos Electronicoss
     </ng-template>
@@ -51,7 +52,8 @@
             <!--<tr style="height:1em" [pSelectableRow]="rowData">-->
             <td style="height: 0.8em; font-size: 1em;">
                 <!--<p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
-                <p-checkbox name="group1" inputId="ny"></p-checkbox>
+                <p-checkbox name="group2" inputId="ny2" binary="true" (onChange)="onChangeCheckboxAll(rowData)"
+                [(ngModel)]="rowData['check']"></p-checkbox>
             </td>
             <td *ngFor="let col of columns" style="height: 0.5em; font-size: 1em;">
                 <span class="ui-column-title">{{ col.header }}</span>

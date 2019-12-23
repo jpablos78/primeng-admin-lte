@@ -52,7 +52,17 @@ export class ProcesarDocumentosElectronicosService {
             //if (res.ok === 'S') {
             //  alert(res);
             //this.totalRecords.next(res.total);
+
+
+
             this.totalRecords.next(res.total);
+
+            res.data.forEach(function (data, i) {
+              if (data['check'] == '0') {
+                data['check'] = false;
+              }
+            });
+
             return res.data as ITB_FAC_DOCUMENTOS[];
             //} else {
             //  throw (res.mensaje);
@@ -77,6 +87,13 @@ export class ProcesarDocumentosElectronicosService {
             //  alert(res);
             //this.totalRecords.next(res.total);
             //this.totalRecords.next(res.total);
+
+            res.data.forEach(function (data, i) {
+              if (data['check'] == '0') {
+                data['check'] = false;
+              }
+            });
+
             return res.data as IMail[];
             //} else {
             //  throw (res.mensaje);

@@ -8,6 +8,7 @@ interface ITB_FAC_DOCUMENTOS {
     descripcion_ces_fe?: string;
     id_log_fe?: number;
     ambiente?: string;
+    check?: boolean;
 }
 
 export default ITB_FAC_DOCUMENTOS;
