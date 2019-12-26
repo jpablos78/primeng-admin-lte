@@ -57,12 +57,13 @@ export class ProcesarDocumentosElectronicosService {
 
             this.totalRecords.next(res.total);
 
+            //if (res.data.lenght > 0) {
             res.data.forEach(function (data, i) {
               if (data['check'] == '0') {
                 data['check'] = false;
               }
             });
-
+            //}
             return res.data as ITB_FAC_DOCUMENTOS[];
             //} else {
             //  throw (res.mensaje);

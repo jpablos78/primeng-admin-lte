@@ -1,6 +1,10 @@
 {
     "data": [
         {
+            "label": "TODOS",
+            "value": "T"
+        },
+        {
             "label": "PENDIENTE",
             "value": "P"
         },

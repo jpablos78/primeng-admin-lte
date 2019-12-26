@@ -49,6 +49,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   totalRecords$: Observable<number>;
 
   txtDocumento: string;
+  txtNombreCliente: string;
   txtTipocmpr: any;
   txtEmpresa: any;
   txtEstado: any;
@@ -63,6 +64,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   emails: any[];
   colsEmail: any[];
   form: FormGroup;
+
+  selectedEstadoFilter: any;
 
   constructor(
     private procesarDocumentosElectronicosService: ProcesarDocumentosElectronicosService,
@@ -82,6 +85,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   inicializarPantalla() {
     this.buildFormAddMail();
     this.txtDocumento = '';
+    this.txtNombreCliente = '';
     this.documentosSeleccionados = [];
 
     this.cols = [
@@ -92,9 +96,9 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         width: '12%'
       },
       {
-        field: 'cno_cliprov',
+        field: 'cno_cliprov_aux',
         header: 'Cliente',
-        filterMatchMode: 'in',
+        filterMatchMode: 'containsAll',
         width: '17%'
       },
       {
@@ -112,7 +116,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       {
         field: 'ces_fe',
         header: 'Estado',
-        filterMatchMode: 'in',
+        filterMatchMode: 'equals',
         width: '10%'
       },
       {
@@ -127,6 +131,8 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         label: 'Solo Procesar', icon: 'pi pi-cog', command: () => {
           console.log('update');
           alert('update');
+          this.selectedEstadoFilter = { label: "GENERADO", value: "G" };
+          this.dt.filter(this.selectedEstadoFilter.value, 'ces_fe', 'equals');
         }
       },
       {
@@ -159,7 +165,11 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
       data => {
         this.estados = data;
         //this.selectedMultipleEstadoFilter = { label: "ACTIVO", value: "A" };
+        //this.txtEstado = 'RECHAZADO';
+        //this.selectedEstadoFilter = { label: "RECHAZADO", value: "R" };
         console.log(this.estados);
+        //this.selectedEstadoFilter = { label: "GENERADO", value: "G" };
+        //this.dt.filter(this.selectedEstadoFilter.value, 'ces_fe', 'equals');
       }
     )
 
@@ -200,6 +210,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   loadLazy(event: LazyLoadEvent) {
     console.log(event);
     console.log(event.filters);
+    this.documentos = [];
 
 
     const postData = new FormData();
@@ -301,9 +312,12 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
   resetFilter() {
     this.dt.reset();
     this.txtDocumento = '';
+    this.txtNombreCliente = '';
     this.txtTipocmpr = '';
     this.txtEmpresa = '';
     this.txtEstado = '';
+
+    this.selectedEstadoFilter = { label: "TODOS", value: "T" };
 
     this.documentosSeleccionados = [];
   }
@@ -602,6 +616,7 @@ export class ProcesarDocumentosElectronicosComponent implements OnInit {
         //this.documentos = data;
         //console.log(this.perfiles);
         console.log(data);
+
 
         //window.open(this.url + 'descargas/' + data.mensaje, '_blank');
 

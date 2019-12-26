@@ -32,6 +32,10 @@
                     [(ngModel)]="txtEmpresa">
                 </p-multiSelect>
 
+                <input *ngSwitchCase="'cno_cliprov_aux'" pInputText type="text" [style]="{'width':'100%'}"
+                    (input)="dt.filter($event.target.value, col.field, col.filterMatchMode);onChangeFilters()"
+                    [(ngModel)]="txtNombreCliente" oninput="this.value = this.value.toUpperCase()">
+
                 <p-multiSelect *ngSwitchCase="'cci_tipocmpr'" [options]="cci_tipocmpr" [style]="{'width':'100%'}"
                     defaultLabel="TODOS"
                     (onChange)="dt.filter($event.value, col.field, col.filterMatchMode);onChangeFilters()"
@@ -42,11 +46,17 @@
                     (input)="dt.filter($event.target.value, col.field, col.filterMatchMode);onChangeFilters()"
                     pKeyFilter="int" [(ngModel)]="txtDocumento">
 
-                <p-multiSelect *ngSwitchCase="'ces_fe'" [options]="estados" [style]="{'width':'100%'}"
+                <!--<p-multiSelect *ngSwitchCase="'ces_fe'" [options]="estados" [style]="{'width':'100%'}"
                     defaultLabel="TODOS"
                     (onChange)="dt.filter($event.value, col.field, col.filterMatchMode);onChangeFilters()"
                     [(ngModel)]="txtEstado">
-                </p-multiSelect>
+                </p-multiSelect>-->
+
+                <p-dropdown *ngSwitchCase="'ces_fe'" [options]="estados" autoWidth="true"
+                    [style]="{'width':'100%', 'min-width':'100%'}"
+                    (onChange)="dt.filter($event.value, col.field, col.filterMatchMode);onChangeFilters()"
+                    [(ngModel)]="selectedEstadoFilter" optionLabel="label">
+                </p-dropdown>
             </th>
         </tr>
     </ng-template>
